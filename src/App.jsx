@@ -1,13 +1,20 @@
-import { useState } from 'react'
 import MainInput from './components/UI/Input/MainInput';
+import TodoLogo from './components/UI/logo/TodoLogo';
+import TodoList from './components/UI/todo-list/TodoList';
+
+
 
 function App() {
 
-  <h1 className='react-logo'>My React Todo</h1>
   return (
+    
+  <>
+    <TodoLogo></TodoLogo>
     <MainInput></MainInput>
-  )
+    <TodoList></TodoList>
 
+  </>
+  )
 }
 
 export default App;
