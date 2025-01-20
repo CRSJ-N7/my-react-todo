@@ -1,0 +1,19 @@
+.mainInput {
+  width: 400px;
+  outline: none;
+  border: 2px solid teal;
+  border-radius: 5px;
+}
+
+.mainInput:focus {
+  background-color: rgb(102, 187, 187);
+}
+
+.mainInput::placeholder {
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+.mainInput:focus::placeholder {
+  color: transparent;
+}

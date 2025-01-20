@@ -1,0 +1,12 @@
+.addTaskBtn {
+  border: 2px solid teal;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  width: 100px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.addTaskBtn:hover {
+  background-color: rgb(102, 187, 187);
+}
