@@ -7,7 +7,7 @@ import "./App.css";
 
 function App() {
   const [task, setTask] = useState("");
-  let [todoArray, setTodoArray] = useState([]);
+  const [todoArray, setTodoArray] = useState([]);
 
   const addNewTask = () => {
     if (!task) {
@@ -16,7 +16,7 @@ function App() {
     }
     const newTask = {
       task,
-      id: self.crypto.randomUUID(),
+      id: crypto.randomUUID(),
       isCompleted: false,
     };
 
