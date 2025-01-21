@@ -1,0 +1,37 @@
+.todoHeader {
+  font-size: 45px;
+  color: teal;
+}
+
+.todoInput {
+  width: 400px;
+  outline: none;
+  border: 2px solid teal;
+  border-radius: 5px;
+}
+
+.todoInput:focus {
+  background-color: rgb(102, 187, 187);
+}
+
+.todoInput::placeholder {
+  color: #999;
+  transition: color 0.3s ease;
+}
+
+.todoInput:focus::placeholder {
+  color: transparent;
+}
+
+.addTaskBtn {
+  border: 2px solid teal;
+  border-radius: 5px;
+  background-color: whitesmoke;
+  width: 100px;
+  height: 50px;
+  cursor: pointer;
+}
+
+.addTaskBtn:hover {
+  background-color: rgb(102, 187, 187);
+}

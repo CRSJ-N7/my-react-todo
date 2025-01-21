@@ -1,0 +1,36 @@
+.todoItems {
+  display: flex;
+  flex-direction: row;
+  max-width: 600px;
+  word-wrap: break-word;
+  white-space: normal;
+}
+.todoItemsText {
+  width: 400px;
+  border: 1px solid teal;
+  border-radius: 2px;
+  margin-left: 2px;
+}
+
+.todoItemsText:hover {
+  background-color: rgb(102, 187, 187);
+}
+
+.todoItemsButtons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* border: 1px solid teal; */
+  width: 100px;
+}
+
+.todoItemsButtons button,
+.todoItemsButtons input {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+
+.todoItemsButtons button:hover {
+  background-color: rgb(102, 187, 187);
+}

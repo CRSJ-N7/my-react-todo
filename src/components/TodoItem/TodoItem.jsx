@@ -1,6 +1,6 @@
-import classes from "./TodoItems.module.css";
+import classes from "./TodoItem.module.css";
 
-const TodoItems = (props) => {
+const TodoItem = (props) => {
   const changeStatus = () => {
     props.toggleStatus(props.id);
   };
@@ -19,10 +19,12 @@ const TodoItems = (props) => {
           onChange={changeStatus}
         ></input>
 
-        <button onClick={deleteTargetTask}>X</button>
+        <button id={props.id} onClick={deleteTargetTask}>
+          X
+        </button>
       </div>
     </div>
   );
 };
 
-export default TodoItems;
+export default TodoItem;
