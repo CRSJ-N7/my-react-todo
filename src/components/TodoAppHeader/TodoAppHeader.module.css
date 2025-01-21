@@ -1,6 +1,9 @@
 .todoHeader {
   font-size: 45px;
   color: teal;
+  display: flex;
+  justify-content: center;
+  margin-top: 150px;
 }
 
 .todoInput {
@@ -34,4 +37,9 @@
 
 .addTaskBtn:hover {
   background-color: rgb(102, 187, 187);
+}
+
+.formWrapper {
+  display: flex;
+  margin-bottom: 15px;
 }

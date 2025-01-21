@@ -10,7 +10,7 @@ const TodoList = ({ todoArray, toggleStatus, deleteTask }) => {
           {...todoArray}
           toggleStatus={toggleStatus}
           deleteTask={deleteTask}
-        ></TodoItem>
+        />
       ))}
     </div>
   );

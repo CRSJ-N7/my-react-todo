@@ -1,11 +1,24 @@
 import TodoAppHeader from "../components/TodoAppHeader/TodoAppHeader";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import TodoList from "../components/TodoList/TodoList";
 import classes from "./TodoApp.module.css";
+import TodoAppFooter from "../components/TodoAppFooter/TodoAppFooter";
 
 function TodoApp() {
   const [newTodo, setNewTodo] = useState("");
   const [todoArray, setTodoArray] = useState([]);
+  const [filter, setFilter] = useState("all");
+  const [filteredArray, setFilteredArray] = useState([]);
+
+  useEffect(() => {
+    if (filter == "all") {
+      setFilteredArray(todoArray.slice());
+    } else if (filter === "active") {
+      setFilteredArray(todoArray.filter((todo) => !todo.isCompleted));
+    } else if (filter === "completed") {
+      setFilteredArray(todoArray.filter((todo) => todo.isCompleted));
+    }
+  }, [todoArray, filter]);
 
   const addNewTask = () => {
     if (!newTodo) {
@@ -36,6 +49,10 @@ function TodoApp() {
     );
   };
 
+  const getFilter = (value) => {
+    setFilter(value);
+  };
+
   return (
     <div className={classes.app}>
       <div className={classes.todoContent}>
@@ -51,14 +68,18 @@ function TodoApp() {
             }
           }}
         />
-
-        {/* <div className={classes.inputWrapper}></div> Тут потом заново шото придумать с враппером */}
-
-        <TodoList
-          todoArray={todoArray}
-          toggleStatus={toggleStatus}
-          deleteTask={deleteTask}
-        ></TodoList>
+        {filteredArray.length !== 0 ? (
+          <TodoList
+            todoArray={filteredArray}
+            toggleStatus={toggleStatus}
+            deleteTask={deleteTask}
+          />
+        ) : (
+          <div> No current tasks </div>
+        )}
+        {todoArray.length !== 0 ? (
+          <TodoAppFooter getFilter={getFilter} />
+        ) : null}
       </div>
     </div>
   );
