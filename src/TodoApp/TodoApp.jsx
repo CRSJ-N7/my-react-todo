@@ -1,14 +1,15 @@
-import TodoAppHeader from "../components/TodoAppHeader/TodoAppHeader";
 import { useEffect, useState } from "react";
+import TodoAppHeader from "../components/TodoAppHeader/TodoAppHeader";
 import TodoList from "../components/TodoList/TodoList";
-import classes from "./TodoApp.module.css";
 import TodoAppFooter from "../components/TodoAppFooter/TodoAppFooter";
+import classes from "./TodoApp.module.css";
 
 function TodoApp() {
   const [newTodo, setNewTodo] = useState("");
   const [todoArray, setTodoArray] = useState([]);
   const [filter, setFilter] = useState("all");
   const [filteredArray, setFilteredArray] = useState([]);
+  const tasksPerPage = 5;
 
   useEffect(() => {
     if (filter == "all") {
@@ -19,6 +20,8 @@ function TodoApp() {
       setFilteredArray(todoArray.filter((todo) => todo.isCompleted));
     }
   }, [todoArray, filter]);
+
+  // useEffect(() => {});
 
   const addNewTask = () => {
     if (!newTodo) {
@@ -70,16 +73,20 @@ function TodoApp() {
         />
         {filteredArray.length !== 0 ? (
           <TodoList
-            todoArray={filteredArray}
+            filteredArray={filteredArray}
             toggleStatus={toggleStatus}
             deleteTask={deleteTask}
           />
         ) : (
           <div> No current tasks </div>
         )}
-        {todoArray.length !== 0 ? (
-          <TodoAppFooter getFilter={getFilter} />
-        ) : null}
+        {todoArray.length !== 0 && (
+          <TodoAppFooter
+            getFilter={getFilter}
+            filteredArray={filteredArray}
+            tasksPerPage={tasksPerPage}
+          />
+        )}
       </div>
     </div>
   );
