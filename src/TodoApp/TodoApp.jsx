@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useRef, useState } from "react";
 import TodoAppHeader from "../components/TodoAppHeader/TodoAppHeader";
 import TodoList from "../components/TodoList/TodoList";
 import TodoAppFooter from "../components/TodoAppFooter/TodoAppFooter";
@@ -8,34 +8,27 @@ function TodoApp() {
   const [newTodo, setNewTodo] = useState("");
   const [todoArray, setTodoArray] = useState([]);
   const [filter, setFilter] = useState("all");
-  const [filteredArray, setFilteredArray] = useState([]);
+  const inputRef = useRef(null);
   const tasksPerPage = 5;
-
-  useEffect(() => {
-    if (filter == "all") {
-      setFilteredArray(todoArray.slice());
-    } else if (filter === "active") {
-      setFilteredArray(todoArray.filter((todo) => !todo.isCompleted));
-    } else if (filter === "completed") {
-      setFilteredArray(todoArray.filter((todo) => todo.isCompleted));
-    }
-  }, [todoArray, filter]);
-
-  // useEffect(() => {});
 
   const addNewTask = () => {
     if (!newTodo) {
       console.warn("You can't create an empty task");
       return;
     }
+
+    const todoTrimmed = newTodo.trim();
+
     const newTask = {
-      task: newTodo,
+      task: todoTrimmed,
       id: crypto.randomUUID(),
       isCompleted: false,
     };
 
     setTodoArray((currentTodoList) => [...currentTodoList, newTask]);
     setNewTodo("");
+
+    inputRef.current.focus();
   };
 
   const toggleStatus = (id) => {
@@ -56,6 +49,14 @@ function TodoApp() {
     setFilter(value);
   };
 
+  const updateTask = (id, editedTask) => {
+    setTodoArray((currentTodoList) => {
+      return currentTodoList.map((todo) =>
+        todo.id === id ? { ...todo, task: editedTask } : todo
+      );
+    });
+  };
+
   return (
     <div className={classes.app}>
       <div className={classes.todoContent}>
@@ -67,15 +68,19 @@ function TodoApp() {
           onClick={addNewTask}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
+              e.stopPropagation();
               addNewTask();
             }
           }}
+          ref={inputRef}
         />
-        {filteredArray.length !== 0 ? (
+        {todoArray.length !== 0 ? (
           <TodoList
-            filteredArray={filteredArray}
+            todoArray={todoArray}
             toggleStatus={toggleStatus}
             deleteTask={deleteTask}
+            filter={filter}
+            updateTask={updateTask}
           />
         ) : (
           <div> No current tasks </div>
@@ -83,7 +88,7 @@ function TodoApp() {
         {todoArray.length !== 0 && (
           <TodoAppFooter
             getFilter={getFilter}
-            filteredArray={filteredArray}
+            todoArray={todoArray}
             tasksPerPage={tasksPerPage}
           />
         )}

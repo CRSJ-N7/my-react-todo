@@ -5,12 +5,12 @@ const TodoAppFooter = (props) => {
     props.getFilter(event.target.value);
   };
 
-  const pages = Math.ceil(props.filteredArray.length / props.tasksPerPage);
+  const pages = Math.ceil(props.todoArray.length / props.tasksPerPage);
 
   return (
     <>
-      {console.log(pages)}
-      <div className={classes.pages}></div>
+      <div className={classes.pages}>{console.log(pages)}</div>
+
       <div className={classes.filterWrapper}>
         <button onClick={filter} value="all">
           All tasks

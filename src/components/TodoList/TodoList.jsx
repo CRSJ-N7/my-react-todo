@@ -1,26 +1,28 @@
 import TodoItem from "../TodoItem/TodoItem";
 import classes from "./TodoList.module.css";
 
+const TodoList = ({ todoArray, toggleStatus, deleteTask, filter, updateTask }) => {
 
-/* Может стоит попробовать условный рендеринг? Т.е. передать пропсом текущее значение фильтра
-и с помощью обычных if (filter === 'completed) { .//  } рендерить только те таски, которые нужны?
-Тогда мне не нужен будет filteredArray и при этом я не буду мутировать основной массив?
-think about it
-*/
-const TodoList = ({ filteredArray, toggleStatus, deleteTask }) => {
+const filterByStatus = (todo) => {
+  if (filter === "all") return true;
+  if (filter === "active") return !todo.isCompleted;
+  if (filter === "completed") return todo.isCompleted;
+  return true;
+}
+
   return (
     <div className={classes.todoList}>
-
-      {filteredArray.map((todoArray) => (
-        <TodoItem
-          key={todoArray.id}
-          toggleStatus={toggleStatus}
-          deleteTask={deleteTask}
-          {...todoArray}
-        />
-
-      ))}
-      
+      {todoArray
+        .filter(filterByStatus)
+        .map((filteredTodo) => (
+          <TodoItem
+            key={filteredTodo.id}
+            toggleStatus={toggleStatus}
+            deleteTask={deleteTask}
+            updateTask={updateTask}
+            {...filteredTodo}
+          />
+        ))}
     </div>
   );
 };
