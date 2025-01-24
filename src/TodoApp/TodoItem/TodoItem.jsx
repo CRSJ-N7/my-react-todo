@@ -1,8 +1,9 @@
 import { useState } from "react";
 import classes from "./TodoItem.module.css";
-import UncheckedIcon from "../../../assets/checkbox/checkbox_blank.svg";
-import CheckedIcon from "../../../assets/checkbox/checkbox_completed.svg";
-import DeleteButton from "../../../assets/delete-button/delete_task.svg";
+import UncheckedIcon from "../../../assets/Checkbox/CheckboxBlank.svg";
+import CheckedIcon from "../../../assets/Checkbox/CheckBoxCompleted.svg";
+import DeleteButton from "../../../assets/DeleteButton/DeleteButton.svg";
+import EditTask from "../../../assets/EditTask/EditTask.svg";
 
 const TodoItem = (props) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -16,7 +17,7 @@ const TodoItem = (props) => {
     props.deleteTask(props.id);
   };
 
-  const handleDoubleClick = () => {
+  const handleEditFunc = () => {
     setIsEditing(true);
   };
 
@@ -33,9 +34,14 @@ const TodoItem = (props) => {
 
   return (
     <div className={classes.todoItems}>
+      <img
+        src={EditTask}
+        className={classes.editButton}
+        onClick={handleEditFunc}
+      />
       {isEditing ? (
         <input
-          className={classes.todoItemsText}
+          className={classes.todoItemsEditedText}
           type="text"
           autoFocus
           value={editedTask}
@@ -50,27 +56,36 @@ const TodoItem = (props) => {
         ></input>
       ) : (
         <div
-          className={classes.todoItemsText}
-          onDoubleClick={handleDoubleClick}
+          className={`${classes.todoItemsText} ${
+            props.isCompleted ? classes.completedTask : ""
+          }`}
+          onDoubleClick={handleEditFunc}
         >
-          {props.isCompleted ? <del>{props.task}</del> : props.task}
+          {props.task}
         </div>
       )}
-      <div className={classes.todoItemsButtons}>
-        {props.isCompleted ? (
-          <img src={CheckedIcon} alt="Completed" onClick={changeStatus} />
-        ) : (
-          <img src={UncheckedIcon} alt="Not completed" onClick={changeStatus} />
-        )}
-
+      {props.isCompleted ? (
         <img
-          className={classes.deleteBtn}
-          src={DeleteButton}
-          id={props.id}
-          alt="Delete"
-          onClick={deleteTargetTask}
+          src={CheckedIcon}
+          className={classes.toggleButton}
+          alt="Completed"
+          onClick={changeStatus}
         />
-      </div>
+      ) : (
+        <img
+          src={UncheckedIcon}
+          className={classes.toggleButton}
+          alt="Not completed"
+          onClick={changeStatus}
+        />
+      )}
+      <img
+        className={classes.deleteBtn}
+        src={DeleteButton}
+        id={props.id}
+        alt="Delete"
+        onClick={deleteTargetTask}
+      />
     </div>
   );
 };

@@ -89,6 +89,7 @@ function TodoApp() {
 
   const getFilter = (value) => {
     setFilter(value);
+    setCurrentPage(1);
   };
 
   const updateTask = (id, editedTask) => {
@@ -135,7 +136,7 @@ function TodoApp() {
           value={newTodo}
           onChange={(e) => setNewTodo(e.target.value)}
           type="text"
-          placeholder="...whats on your mind?"
+          placeholder="...what’s next?"
           onClick={addNewTask}
           onKeyDown={(e) => {
             if (e.key === "Enter") {
@@ -163,6 +164,7 @@ function TodoApp() {
         {todoArray.length !== 0 && (
           <TodoAppFooter
             getFilter={getFilter}
+            filter={filter}
             todoArray={todoArray}
             tasksPerPage={tasksPerPage}
             filteredCount={filteredCount}

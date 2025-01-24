@@ -1,13 +1,22 @@
 import classes from "./TodoAppHeader.module.css";
-import React from "react"; // Кто-то мне говорил, что это не обязаловка такое писать. Но получается обязаловка? Или как тогда использовать ref?
+// Кто-то мне говорил, что это не обязаловка такое писать. Но получается обязаловка? Или как тогда использовать ref?
 // Без React.forwardRef() тоже работает всё отлично, но моя консоль на меня ругается. ЧЗХ?
+import React from "react";
+import DeleteAllCompletedButton from "../../../assets/DeleteAllCompletedButton/DeleteAllCompleted.svg";
+import AddTaskButton from "../../../assets/AddTaskButton/AddTaskButton.svg";
+import ChangeAllButton from "../../../assets/ChangeAllButton/ChangeAllButton.svg";
 
 const TodoAppHeader = React.forwardRef((props, ref) => {
   return (
     <>
-      <h1 className={classes.todoHeader}>My React Todo</h1>
+      <h1 className={classes.todoHeader}>My ******* Todo</h1>
 
       <div className={classes.formWrapper}>
+        <div className={classes.buttonWrapper}>
+          <button className={classes.headerBtn}>
+            <img src={AddTaskButton} onClick={props.onClick} />
+          </button>
+        </div>
         <input
           ref={ref}
           className={classes.todoInput}
@@ -17,21 +26,19 @@ const TodoAppHeader = React.forwardRef((props, ref) => {
           onKeyDown={props.onKeyDown}
           placeholder={props.placeholder}
         />
-        <button className={classes.addTaskBtn} onClick={props.onClick}>
-          Add
-        </button>
-        <button
-          className={classes.addTaskBtn}
-          onClick={props.deleteAllCompleted}
-        >
-          Delete All Completed
-        </button>
-        <button
-          className={classes.addTaskBtn}
-          onClick={props.toggleAllStatuses}
-        >
-          Toggle All
-        </button>
+
+        <div className={classes.buttonWrapper}>
+          <button className={classes.headerBtn}>
+            <img src={ChangeAllButton} onClick={props.toggleAllStatuses} />
+          </button>
+
+          <button className={classes.headerBtn}>
+            <img
+              src={DeleteAllCompletedButton}
+              onClick={props.deleteAllCompleted}
+            />
+          </button>
+        </div>
       </div>
     </>
   );

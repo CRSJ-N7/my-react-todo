@@ -1,5 +1,6 @@
 import classes from "./TodoAppFooter.module.css";
 import { useState } from "react";
+import AddTaskButton from "../../../assets/AddTaskButton/AddTaskButton.svg";
 
 const TodoAppFooter = (props) => {
   const [tasksPerPageInput, setTasksPerPageInput] = useState(
@@ -14,53 +15,99 @@ const TodoAppFooter = (props) => {
 
   const handleInputChange = (e) => {
     const value = e.target.value;
-    if (!isNaN(value)) {
-      setTasksPerPageInput(value);
+    const numericValue = Number(value);
+
+    if (
+      !isNaN(numericValue) &&
+      value !== "" &&
+      numericValue > 0 &&
+      numericValue <= 100
+    ) {
+      setTasksPerPageInput(numericValue);
     } else {
-      alert("Only numeric values are allowed.");
+      alert("Please enter a number between 1 and 100.");
     }
   };
 
   return (
     <>
-      <div className={classes.pages}>
-        {Array(pagesCount)
-          .fill()
-          .map((emptyElement, i) => (
-            <button key={i} onClick={() => props.pageChangeHandler(i + 1)}>
-              {i + 1}
-            </button>
-          ))}
-      </div>
+      <div className={classes.todoFooterWrapper}>
+        <div className={classes.pagesWrapper}>
+          {Array(pagesCount)
+            .fill()
+            .map((emptyElement, i) => (
+              <button
+                key={i}
+                className={
+                  props.currentPage === i + 1
+                    ? `${classes.page} ${classes.activePage}`
+                    : classes.page
+                }
+                onClick={() => props.pageChangeHandler(i + 1)}
+              >
+                {i + 1}
+              </button>
+            ))}
+        </div>
 
-      <div className={classes.filterWrapper}>
-        <button onClick={filter} value="all">
-          All tasks <br />({props.taskCount.allTasksCount})
-        </button>
-        <button onClick={filter} value="active">
-          Active tasks <br />({props.taskCount.activeTasksCount})
-        </button>
-        <button onClick={filter} value="completed">
-          Completed tasks <br />({props.taskCount.completedTasksCount})
-        </button>
-      </div>
-
-      <div>
-        Tasks per page:
-        <input
-          className={classes.tasksCountInput}
-          value={tasksPerPageInput}
-          onChange={handleInputChange}
-          onKeyDown={(e) => {
-            if (e.key === "Enter") {
-              e.stopPropagation();
-              props.tasksPerPageHandler(tasksPerPageInput);
+        <div className={classes.filterWrapper}>
+          <button
+            onClick={filter}
+            className={
+              props.filter === "all"
+                ? `${classes.activeFilter}`
+                : classes.filter
             }
-          }}
-        ></input>
-        <button onClick={() => props.tasksPerPageHandler(tasksPerPageInput)}>
-          add
-        </button>
+            value="all"
+          >
+            All tasks <br />({props.taskCount.allTasksCount})
+          </button>
+          <button
+            onClick={filter}
+            className={
+              props.filter === "active"
+                ? `${classes.activeFilter}`
+                : classes.filter
+            }
+            value="active"
+          >
+            Active tasks <br />({props.taskCount.activeTasksCount})
+          </button>
+          <button
+            onClick={filter}
+            className={
+              props.filter === "completed"
+                ? `${classes.activeFilter}`
+                : classes.filter
+            }
+            value="completed"
+          >
+            Completed tasks <br />({props.taskCount.completedTasksCount})
+          </button>
+        </div>
+
+        <div className={classes.tasksCountWrapper}>
+          Tasks per page:
+          <input
+            className={classes.tasksCountInput}
+            value={tasksPerPageInput}
+            onChange={handleInputChange}
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.stopPropagation();
+                props.tasksPerPageHandler(tasksPerPageInput);
+              }
+            }}
+          ></input>
+          <button
+            className={classes.taskCountButton}
+            onClick={() => {
+              props.tasksPerPageHandler(tasksPerPageInput);
+            }}
+          >
+            Apply
+          </button>
+        </div>
       </div>
     </>
   );

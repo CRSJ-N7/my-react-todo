@@ -1,45 +1,72 @@
 .todoHeader {
   font-size: 45px;
-  color: teal;
+  color: #475390;
   display: flex;
   justify-content: center;
   margin-top: 150px;
+  margin-bottom: 50px;
+  position: relative;
 }
 
+.todoHeader::after {
+  content: "My Fucking Todo";
+  background: white;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  position: absolute;
+  font-size: 45px;
+  color: #475390;
+}
+
+.todoHeader:hover::after {
+  opacity: 1;
+}
 .todoInput {
   width: 400px;
+  height: 45px;
   outline: none;
-  border: 2px solid teal;
+  border: 2px solid #475390;
   border-radius: 5px;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+    Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
 }
 
 .todoInput:focus {
-  background-color: rgb(102, 187, 187);
+  background-color: rgba(165, 174, 214, 0.7);
 }
 
 .todoInput::placeholder {
-  color: #999;
-  transition: color 0.3s ease;
+  color: rgb(153, 153, 153, 0.7);
+  font-style: italic;
+  transition: color 0.2s ease;
 }
 
 .todoInput:focus::placeholder {
   color: transparent;
 }
 
-.addTaskBtn {
-  border: 2px solid teal;
-  border-radius: 5px;
-  background-color: whitesmoke;
-  width: 100px;
-  height: 50px;
+.headerBtn {
   cursor: pointer;
+  width: 45px;
+  height: 45px;
+  outline: none;
+  border: none;
+  background-color: white;
+  transition: transform 0.2s;
 }
 
-.addTaskBtn:hover {
-  background-color: rgb(102, 187, 187);
+.headerBtn:hover {
+  transform: scale(1.1);
+}
+
+.headerBtn img {
+  width: 32px;
+  height: 32px;
+  margin-top: 5px;
 }
 
 .formWrapper {
   display: flex;
   margin-bottom: 15px;
+  gap: 5px;
 }
