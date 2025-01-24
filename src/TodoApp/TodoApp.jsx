@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import TodoAppHeader from "../components/TodoAppHeader/TodoAppHeader";
-import TodoList from "../components/TodoList/TodoList";
-import TodoAppFooter from "../components/TodoAppFooter/TodoAppFooter";
+import TodoAppHeader from "./TodoAppHeader/TodoAppHeader";
+import TodoList from "./TodoList/TodoList";
+import TodoAppFooter from "./TodoAppFooter/TodoAppFooter";
 import classes from "./TodoApp.module.css";
 
 function TodoApp() {
@@ -52,8 +52,6 @@ function TodoApp() {
     activeTasksCount: todoArray.filter((todo) => !todo.isCompleted).length,
     completedTasksCount: todoArray.filter((todo) => todo.isCompleted).length,
   };
-  
-  console.log("taskCount:", taskCount);
 
   const addNewTask = () => {
     if (!newTodo) {

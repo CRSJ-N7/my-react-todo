@@ -35,13 +35,13 @@ const TodoAppFooter = (props) => {
 
       <div className={classes.filterWrapper}>
         <button onClick={filter} value="all">
-          All tasks ({props.taskCount.allTasksCount})
+          All tasks <br />({props.taskCount.allTasksCount})
         </button>
         <button onClick={filter} value="active">
-          Active tasks ({props.taskCount.activeTasksCount})
+          Active tasks <br />({props.taskCount.activeTasksCount})
         </button>
         <button onClick={filter} value="completed">
-          Completed tasks ({props.taskCount.completedTasksCount})
+          Completed tasks <br />({props.taskCount.completedTasksCount})
         </button>
       </div>
 
@@ -51,6 +51,12 @@ const TodoAppFooter = (props) => {
           className={classes.tasksCountInput}
           value={tasksPerPageInput}
           onChange={handleInputChange}
+          onKeyDown={(e) => {
+            if (e.key === "Enter") {
+              e.stopPropagation();
+              props.tasksPerPageHandler(tasksPerPageInput);
+            }
+          }}
         ></input>
         <button onClick={() => props.tasksPerPageHandler(tasksPerPageInput)}>
           add

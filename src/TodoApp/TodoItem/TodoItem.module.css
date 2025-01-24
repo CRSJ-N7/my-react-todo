@@ -33,3 +33,9 @@
 .todoItemsButtons button:hover {
   background-color: rgb(102, 187, 187);
 }
+
+.deleteBtn {
+  width: 24px;
+  height: 24px;
+  cursor: pointer;
+}

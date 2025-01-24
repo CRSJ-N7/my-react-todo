@@ -18,3 +18,7 @@
   gap: 2px;
   margin-bottom: 5px;
 }
+
+.deleteBtn {
+  background-color: red;
+}

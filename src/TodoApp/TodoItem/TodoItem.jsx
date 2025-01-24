@@ -1,5 +1,8 @@
 import { useState } from "react";
 import classes from "./TodoItem.module.css";
+import UncheckedIcon from "../../../assets/checkbox/checkbox_blank.svg";
+import CheckedIcon from "../../../assets/checkbox/checkbox_completed.svg";
+import DeleteButton from "../../../assets/delete-button/delete_task.svg";
 
 const TodoItem = (props) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -18,7 +21,7 @@ const TodoItem = (props) => {
   };
 
   const saveChanges = () => {
-    const trimmedTask = editedTask.trim()
+    const trimmedTask = editedTask.trim();
 
     if (trimmedTask !== "") {
       props.updateTask(props.id, trimmedTask);
@@ -53,17 +56,20 @@ const TodoItem = (props) => {
           {props.isCompleted ? <del>{props.task}</del> : props.task}
         </div>
       )}
-
       <div className={classes.todoItemsButtons}>
-        <input
-          type="checkbox"
-          checked={props.isCompleted}
-          onChange={changeStatus}
-        ></input>
+        {props.isCompleted ? (
+          <img src={CheckedIcon} alt="Completed" onClick={changeStatus} />
+        ) : (
+          <img src={UncheckedIcon} alt="Not completed" onClick={changeStatus} />
+        )}
 
-        <button id={props.id} onClick={deleteTargetTask}>
-          X
-        </button>
+        <img
+          className={classes.deleteBtn}
+          src={DeleteButton}
+          id={props.id}
+          alt="Delete"
+          onClick={deleteTargetTask}
+        />
       </div>
     </div>
   );
