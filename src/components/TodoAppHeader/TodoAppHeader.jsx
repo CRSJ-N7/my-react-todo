@@ -20,6 +20,18 @@ const TodoAppHeader = React.forwardRef((props, ref) => {
         <button className={classes.addTaskBtn} onClick={props.onClick}>
           Add
         </button>
+        <button
+          className={classes.addTaskBtn}
+          onClick={props.deleteAllCompleted}
+        >
+          Delete All Completed
+        </button>
+        <button
+          className={classes.addTaskBtn}
+          onClick={props.toggleAllStatuses}
+        >
+          Toggle All
+        </button>
       </div>
     </>
   );

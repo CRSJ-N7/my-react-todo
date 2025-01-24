@@ -1,15 +1,63 @@
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import TodoAppHeader from "../components/TodoAppHeader/TodoAppHeader";
 import TodoList from "../components/TodoList/TodoList";
 import TodoAppFooter from "../components/TodoAppFooter/TodoAppFooter";
 import classes from "./TodoApp.module.css";
 
 function TodoApp() {
+  const loadFromLocalStorage = () => {
+    const savedState = localStorage.getItem("TodoApp");
+    if (savedState) {
+      return JSON.parse(savedState);
+    }
+    return null;
+  };
+
+  const savedState = loadFromLocalStorage();
+
   const [newTodo, setNewTodo] = useState("");
-  const [todoArray, setTodoArray] = useState([]);
-  const [filter, setFilter] = useState("all");
+  const [todoArray, setTodoArray] = useState(savedState?.todoArray || []);
+  const [filter, setFilter] = useState(savedState?.filter || "all");
+  const [currentPage, setCurrentPage] = useState(savedState?.currentPage || 1);
+  const [tasksPerPage, setTasksPerPage] = useState(
+    savedState?.tasksPerPage || 5
+  );
+
+  const saveToLocalStorage = () => {
+    const stateToSave = {
+      todoArray,
+      filter,
+      currentPage,
+      tasksPerPage,
+    };
+
+    localStorage.setItem("TodoApp", JSON.stringify(stateToSave));
+  };
+
+  useEffect(() => {
+    saveToLocalStorage();
+  }, [todoArray, filter, currentPage, tasksPerPage]);
+
   const inputRef = useRef(null);
-  const tasksPerPage = 5;
+
+  const filteredCount = todoArray.filter((todo) => {
+    if (filter === "all") return true;
+    if (filter === "active") return !todo.isCompleted;
+    if (filter === "completed") return todo.isCompleted;
+    return true;
+  }).length;
+
+  const allTasksCount = todoArray.filter(() => {
+    if (filter === "all") return true;
+  }).length;
+
+  const activeTasksCount = todoArray.filter(() => {
+    if (filter === "active") return true;
+  }).length;
+
+  const completedTasksCount = todoArray.filter(() => {
+    if (filter === "completed") return true;
+  }).length;
 
   const addNewTask = () => {
     if (!newTodo) {
@@ -57,6 +105,35 @@ function TodoApp() {
     });
   };
 
+  const pageChangeHandler = (page) => {
+    if (filteredCount === 0) {
+      setCurrentPage((page) => page - 1);
+    } else {
+      setCurrentPage(page);
+    }
+  };
+
+  const deleteAllCompleted = () => {
+    setTodoArray((currentTodoList) =>
+      currentTodoList.filter((todo) => !todo.isCompleted)
+    );
+  };
+
+  const toggleAllStatuses = () => {
+    const checkCompletedTasks = todoArray.some((todo) => todo.isCompleted);
+
+    setTodoArray((currentTodoList) =>
+      currentTodoList.map((todo) => ({
+        ...todo,
+        isCompleted: !checkCompletedTasks,
+      }))
+    );
+  };
+
+  const tasksPerPageHandler = (value) => {
+    setTasksPerPage(value);
+  };
+
   return (
     <div className={classes.app}>
       <div className={classes.todoContent}>
@@ -73,6 +150,8 @@ function TodoApp() {
             }
           }}
           ref={inputRef}
+          deleteAllCompleted={deleteAllCompleted}
+          toggleAllStatuses={toggleAllStatuses}
         />
         {todoArray.length !== 0 ? (
           <TodoList
@@ -81,6 +160,8 @@ function TodoApp() {
             deleteTask={deleteTask}
             filter={filter}
             updateTask={updateTask}
+            currentPage={currentPage}
+            tasksPerPage={tasksPerPage}
           />
         ) : (
           <div> No current tasks </div>
@@ -90,6 +171,13 @@ function TodoApp() {
             getFilter={getFilter}
             todoArray={todoArray}
             tasksPerPage={tasksPerPage}
+            filteredCount={filteredCount}
+            pageChangeHandler={pageChangeHandler}
+            currentPage={currentPage}
+            tasksPerPageHandler={tasksPerPageHandler}
+            allTasksCount={allTasksCount}
+            activeTasksCount={activeTasksCount}
+            completedTasksCount={completedTasksCount}
           />
         )}
       </div>
