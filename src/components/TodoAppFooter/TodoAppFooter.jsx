@@ -35,15 +35,13 @@ const TodoAppFooter = (props) => {
 
       <div className={classes.filterWrapper}>
         <button onClick={filter} value="all">
-          All tasks
-          {props.allTasksCount ? props.allTasksCount : null}
+          All tasks ({props.taskCount.allTasksCount})
         </button>
         <button onClick={filter} value="active">
-          Active tasks {props.activeTasksCount ? props.activeTasksCount : null}
+          Active tasks ({props.taskCount.activeTasksCount})
         </button>
         <button onClick={filter} value="completed">
-          Completed tasks
-          {props.completedTasksCount ? props.completedTasksCount : null}
+          Completed tasks ({props.taskCount.completedTasksCount})
         </button>
       </div>
 

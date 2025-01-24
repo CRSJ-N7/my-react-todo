@@ -47,17 +47,13 @@ function TodoApp() {
     return true;
   }).length;
 
-  const allTasksCount = todoArray.filter(() => {
-    if (filter === "all") return true;
-  }).length;
-
-  const activeTasksCount = todoArray.filter(() => {
-    if (filter === "active") return true;
-  }).length;
-
-  const completedTasksCount = todoArray.filter(() => {
-    if (filter === "completed") return true;
-  }).length;
+  const taskCount = {
+    allTasksCount: todoArray.length,
+    activeTasksCount: todoArray.filter((todo) => !todo.isCompleted).length,
+    completedTasksCount: todoArray.filter((todo) => todo.isCompleted).length,
+  };
+  
+  console.log("taskCount:", taskCount);
 
   const addNewTask = () => {
     if (!newTodo) {
@@ -175,9 +171,7 @@ function TodoApp() {
             pageChangeHandler={pageChangeHandler}
             currentPage={currentPage}
             tasksPerPageHandler={tasksPerPageHandler}
-            allTasksCount={allTasksCount}
-            activeTasksCount={activeTasksCount}
-            completedTasksCount={completedTasksCount}
+            taskCount={taskCount}
           />
         )}
       </div>
