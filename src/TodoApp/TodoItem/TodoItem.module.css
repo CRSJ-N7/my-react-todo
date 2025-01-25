@@ -38,7 +38,7 @@
   opacity: 0.5;
 }
 
-.deleteBtn,
+.deleteButton,
 .toggleButton {
   width: 26px;
   height: 26px;
@@ -58,7 +58,7 @@
 }
 
 .toggleButton:hover,
-.deleteBtn:hover,
+.deleteButton:hover,
 .editButton:hover {
   transform: scale(1.2);
   opacity: 1;
@@ -72,6 +72,6 @@
   margin-left: 15px;
 }
 
-.deleteBtn {
+.deleteButton {
   margin-left: 15px;
 }

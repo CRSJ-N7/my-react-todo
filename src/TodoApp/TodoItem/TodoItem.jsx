@@ -1,5 +1,7 @@
 import { useState } from "react";
 import classes from "./TodoItem.module.css";
+import { Tooltip as ReactTooltip } from "react-tooltip";
+import "react-tooltip/dist/react-tooltip.css";
 import UncheckedIcon from "../../../assets/Checkbox/CheckboxBlank.svg";
 import CheckedIcon from "../../../assets/Checkbox/CheckBoxCompleted.svg";
 import DeleteButton from "../../../assets/DeleteButton/DeleteButton.svg";
@@ -38,7 +40,11 @@ const TodoItem = (props) => {
         src={EditTask}
         className={classes.editButton}
         onClick={handleEditFunc}
+        data-tooltip-id="edit-task"
+        data-tooltip-content="Click to edit task"
+        data-tooltip-class="editTaskTooltip"
       />
+      <ReactTooltip id="edit-task" className="editTaskTooltip" place="left" />
       {isEditing ? (
         <input
           className={classes.todoItemsEditedText}
@@ -80,12 +86,20 @@ const TodoItem = (props) => {
         />
       )}
       <img
-        className={classes.deleteBtn}
+        className={classes.deleteButton}
         src={DeleteButton}
         id={props.id}
         alt="Delete"
         onClick={deleteTargetTask}
+        data-tooltip-id="delete-task"
+        data-tooltip-content="Click to delete task"
+        data-tooltip-class="deleteTaskTooltip"
       />
+      <ReactTooltip
+        id="delete-task"
+        place="right"
+        className="deleteTaskTooltip"
+      ></ReactTooltip>
     </div>
   );
 };

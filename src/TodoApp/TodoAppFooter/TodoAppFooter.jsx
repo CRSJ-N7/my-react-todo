@@ -1,6 +1,5 @@
-import classes from "./TodoAppFooter.module.css";
 import { useState } from "react";
-import AddTaskButton from "../../../assets/AddTaskButton/AddTaskButton.svg";
+import classes from "./TodoAppFooter.module.css";
 
 const TodoAppFooter = (props) => {
   const [tasksPerPageInput, setTasksPerPageInput] = useState(
@@ -11,7 +10,7 @@ const TodoAppFooter = (props) => {
     props.getFilter(event.target.value);
   };
 
-  const pagesCount = Math.ceil(props.filteredCount / props.tasksPerPage);
+  const pagesCount = Math.ceil(props.filteredTodoCount / props.tasksPerPage);
 
   const handleInputChange = (e) => {
     const value = e.target.value;
@@ -87,7 +86,7 @@ const TodoAppFooter = (props) => {
         </div>
 
         <div className={classes.tasksCountWrapper}>
-          Tasks per page:
+          Show
           <input
             className={classes.tasksCountInput}
             value={tasksPerPageInput}
@@ -99,6 +98,7 @@ const TodoAppFooter = (props) => {
               }
             }}
           ></input>
+          tasks per page
           <button
             className={classes.taskCountButton}
             onClick={() => {

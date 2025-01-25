@@ -1,6 +1,6 @@
+import { useEffect } from "react";
 import TodoItem from "../TodoItem/TodoItem";
 import classes from "./TodoList.module.css";
-import { useEffect } from "react";
 
 const TodoList = ({
   todoArray,
@@ -12,7 +12,6 @@ const TodoList = ({
   tasksPerPage,
   onUpdateCount,
 }) => {
-  
   const filterByStatus = (todo) => {
     if (filter === "all") return true;
     if (filter === "active") return !todo.isCompleted;
@@ -23,9 +22,8 @@ const TodoList = ({
   const startIndex = (currentPage - 1) * tasksPerPage;
   const endIndex = startIndex + tasksPerPage;
 
-  const filteredArray = todoArray
-    .filter(filterByStatus)
-    .slice(startIndex, endIndex);
+  const filteredArray = todoArray.filter(filterByStatus);
+  const paginatedArray = filteredArray.slice(startIndex, endIndex);
 
   useEffect(() => {
     onUpdateCount(filteredArray.length);
@@ -33,18 +31,15 @@ const TodoList = ({
 
   return (
     <div className={classes.todoList}>
-      {todoArray
-        .filter(filterByStatus)
-        .slice(startIndex, endIndex)
-        .map((filteredTodo) => (
-          <TodoItem
-            key={filteredTodo.id}
-            toggleStatus={toggleStatus}
-            deleteTask={deleteTask}
-            updateTask={updateTask}
-            {...filteredTodo}
-          />
-        ))}
+      {paginatedArray.map((filteredTodo) => (
+        <TodoItem
+          key={filteredTodo.id}
+          toggleStatus={toggleStatus}
+          deleteTask={deleteTask}
+          updateTask={updateTask}
+          {...filteredTodo}
+        />
+      ))}
     </div>
   );
 };

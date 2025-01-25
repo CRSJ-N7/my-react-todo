@@ -41,7 +41,7 @@ function TodoApp() {
 
   const inputRef = useRef(null);
 
-  const filteredCount = todoArray.filter((todo) => {
+  const filteredTodoCount = todoArray.filter((todo) => {
     if (filter === "all") return true;
     if (filter === "active") return !todo.isCompleted;
     if (filter === "completed") return todo.isCompleted;
@@ -90,6 +90,7 @@ function TodoApp() {
 
   const getFilter = (value) => {
     setFilter(value);
+    setCurrentPage(1);
   };
 
   const updateTask = (id, editedTask) => {
@@ -126,17 +127,15 @@ function TodoApp() {
   };
 
   useEffect(() => {
-    console.log("filteredArrayLength:", filteredArrayLength);
-    console.log("currentPage:", currentPage);
-    if (filteredArrayLength === 0 && currentPage > 1) {
-      console.log("Adjusting page...");
-      setCurrentPage((prevPage) => Math.max(1, prevPage - 1));
+    const totalPages = Math.ceil(filteredArrayLength / tasksPerPage);
+
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(totalPages);
     }
-  }, [filteredArrayLength, currentPage]);
+  }, [filteredArrayLength, currentPage, tasksPerPage]);
 
   return (
     <div className={classes.app}>
-      <p>Количество элементов: {filteredArrayLength}</p>
       <div className={classes.todoContent}>
         <TodoAppHeader
           value={newTodo}
@@ -166,7 +165,7 @@ function TodoApp() {
             onUpdateCount={setFilteredArrayLength}
           />
         ) : (
-          <div> No current tasks </div>
+          <h2 className={classes.tasksNotFound}> No current tasks </h2>
         )}
         {todoArray.length !== 0 && (
           <TodoAppFooter
@@ -174,7 +173,7 @@ function TodoApp() {
             filter={filter}
             todoArray={todoArray}
             tasksPerPage={tasksPerPage}
-            filteredCount={filteredCount}
+            filteredTodoCount={filteredTodoCount}
             pageChangeHandler={pageChangeHandler}
             currentPage={currentPage}
             tasksPerPageHandler={tasksPerPageHandler}
