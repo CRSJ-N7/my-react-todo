@@ -22,6 +22,7 @@ function TodoApp() {
   const [tasksPerPage, setTasksPerPage] = useState(
     savedState?.tasksPerPage || 5
   );
+  const [filteredArrayLength, setFilteredArrayLength] = useState(0);
 
   const saveToLocalStorage = () => {
     const stateToSave = {
@@ -89,7 +90,6 @@ function TodoApp() {
 
   const getFilter = (value) => {
     setFilter(value);
-    setCurrentPage(1);
   };
 
   const updateTask = (id, editedTask) => {
@@ -101,11 +101,7 @@ function TodoApp() {
   };
 
   const pageChangeHandler = (page) => {
-    if (filteredCount === 0) {
-      setCurrentPage((page) => page - 1);
-    } else {
-      setCurrentPage(page);
-    }
+    setCurrentPage(page);
   };
 
   const deleteAllCompleted = () => {
@@ -129,8 +125,18 @@ function TodoApp() {
     setTasksPerPage(value);
   };
 
+  useEffect(() => {
+    console.log("filteredArrayLength:", filteredArrayLength);
+    console.log("currentPage:", currentPage);
+    if (filteredArrayLength === 0 && currentPage > 1) {
+      console.log("Adjusting page...");
+      setCurrentPage((prevPage) => Math.max(1, prevPage - 1));
+    }
+  }, [filteredArrayLength, currentPage]);
+
   return (
     <div className={classes.app}>
+      <p>Количество элементов: {filteredArrayLength}</p>
       <div className={classes.todoContent}>
         <TodoAppHeader
           value={newTodo}
@@ -157,6 +163,7 @@ function TodoApp() {
             updateTask={updateTask}
             currentPage={currentPage}
             tasksPerPage={tasksPerPage}
+            onUpdateCount={setFilteredArrayLength}
           />
         ) : (
           <div> No current tasks </div>
